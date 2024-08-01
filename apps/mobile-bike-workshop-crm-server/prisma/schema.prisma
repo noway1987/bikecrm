@@ -1,0 +1,79 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Customer {
+  address      String?
+  appointments Appointment[]
+  city         String?
+  createdAt    DateTime      @default(now())
+  email        String?
+  fahrrad      Bike[]
+  firstName    String?
+  id           String        @id @default(cuid())
+  lastName     String?
+  phone        String?
+  updatedAt    DateTime      @updatedAt
+  zipCode      String?
+}
+
+model Bike {
+  battery        String?
+  brakes         String?
+  brand          String?
+  cassette       String?
+  chain          String?
+  chainGuide     String?
+  charger        String?
+  crank          String?
+  createdAt      DateTime   @default(now())
+  customers      Customer[]
+  damper         String?
+  display        String?
+  fork           String?
+  frame          String?
+  gear           String?
+  handlebar      String?
+  headset        String?
+  id             String     @id @default(cuid())
+  kilometers     String?
+  lever          String?
+  model          String?
+  motor          String?
+  pedalArm       String?
+  remote         String?
+  seat           String?
+  seatPost       String?
+  seatPostRemote Boolean?
+  stem           String?
+  tires          String?
+  updatedAt      DateTime   @updatedAt
+  wheelSet       String?
+  year           String?
+}
+
+model Appointment {
+  createdAt  DateTime  @default(now())
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+  dateTime   DateTime?
+  id         String    @id @default(cuid())
+  updatedAt  DateTime  @updatedAt
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
